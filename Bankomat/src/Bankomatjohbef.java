@@ -1,7 +1,7 @@
 import java.math.*;
 import java.util.*;
 
-public class Matematikjohbef {
+public class Bankomatjohbef {
     //****************************************************************** 
 	// Programmerare: Johan Bergström, johbef-4@student.ltu.se
 	// Datum: 2014-09-24

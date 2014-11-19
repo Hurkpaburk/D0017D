@@ -14,10 +14,12 @@ hs_err_pid*
 
 # ignore all bin directories
 # matches "bin" in any subfolder
-bin/
+/bin/
 
 # ignore all target directories
-target/
+/target/
+
+/.settings/
 
 # ignore all files ending with ~
 *~ 

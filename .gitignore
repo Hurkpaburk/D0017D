@@ -19,7 +19,10 @@ hs_err_pid*
 # ignore all target directories
 /target/
 
-/.settings/
+# local.properties
+.classpath
+.settings/
+.loadpath
 
 # ignore all files ending with ~
 *~ 

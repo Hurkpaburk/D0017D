@@ -19,36 +19,47 @@ public class Bankomatjohbef {
 	//------------------------------------------------------
 	public static void main(String []args){
 
-		int[] trans = new int[10]; // declare and allocate array memory
-		// Change int[] number above to change size of transaction array 
+		int arrayMaxLength = 10; // Change number to change size of transaction array
+		int[] trans = new int[0]; // declare and allocate array memory
 		
-		int balance;
-		int amount;
+		int balance = 0;
+		int amount = 0;
+		int numberOfTrans = 0;
 		
 		Scanner keyboardInput = new Scanner(System.in); // Create object
 
 		int function = menu();		
 		
 		while (function != 4) {
-			
+
 			switch(function) {
+
 			case 1: // Deposit
 				System.out.print("Amount to deposit: ");
 				amount = keyboardInput.nextInt();
 				makeTransaction(trans, amount);
+				break;
 				
 			case 2: // Deposit
 				System.out.print("Amount to withdraw: ");
 				amount = -1*keyboardInput.nextInt();
 				makeTransaction(trans, amount);
+				break;
+				
 			case 3: // Balance
-
+				showTransactions(trans, balance);
+				break;
+				
 			case 4: // Exit
 				break;
 
 			default: // Do Nothing
 				System.out.println("Enter a number between 1 - 5!");
+				break;
 			}
+
+			balance = balance + amount; // Calculate balance, the sum of all deposits and withdraws  
+			
 			function = menu();
 		}
 		
@@ -83,10 +94,15 @@ public class Bankomatjohbef {
 	// Inparametrar: trans - Transactions , balance - Account balance
 	// Returvärde: None
 	//------------------------------------------------------
-	public static void showTransactions(int[] trans, int balance)
-			throws IllegalArgumentException { 
+	public static void showTransactions(int[] trans, int balance) { 
 		
-
+		System.out.println("Current balance is: " + balance);
+		System.out.println("The last transactions: ");
+		
+		for (int i = 0; i < trans.length; i++) { // loop from 1 to number of transactions or max 
+			System.out.println(trans[i]);  // print result
+		}
+		
 	}
 
 	//------------------------------------------------------
@@ -94,9 +110,29 @@ public class Bankomatjohbef {
 	// Inparametrar: trans - Transaction array, amount - Withdraw or deposit amount 
 	// Returvärde: None
 	//------------------------------------------------------
-	public static void makeTransaction(int[] trans, int amount)
-			throws IllegalArgumentException { 
+	public static void makeTransaction(int[] trans, int amount) { 
+		
+		int transPos = findNr(trans);
+		System.out.println(transPos);
+		
+		if (trans.length <= transPos) {
+			
+			System.out.println("sdfdg");
+			
+			int[] transTemp = new int[trans.length+1];
+			
+			for(int i = 0; i < trans.length; i++) {
+				transTemp[i] = trans[i];
+			}
+			trans = transTemp;
+			System.out.println(transTemp.length);
+		}
 
+		System.out.println(trans.length);
+
+		moveTrans(trans);
+		
+		trans[transPos] = amount;
 	}
 
 	//------------------------------------------------------
@@ -106,7 +142,15 @@ public class Bankomatjohbef {
 	//------------------------------------------------------
 	private static int findNr(int[] trans) { 
 
+		int arrayMaxLength = 10;
 		int transPos = 0;
+		if (trans.length < arrayMaxLength-1) {
+			
+			transPos = trans.length;
+		}
+		else {
+			transPos = arrayMaxLength-1;
+		}
 		
 		return transPos;
 	}
@@ -117,6 +161,9 @@ public class Bankomatjohbef {
 	// Returvärde: None
 	//------------------------------------------------------
 	private static void moveTrans(int[] trans) {
-	
+		
+		for(int i = 1; i <= (trans.length-1); i++) {
+			trans[i] = trans[i-1];
+		}
 	}
 }

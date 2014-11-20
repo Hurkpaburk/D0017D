@@ -20,7 +20,7 @@ public class Bankomatjohbef {
 	public static void main(String []args){
 
 		int arrayMaxLength = 10; // Change number to change size of transaction array
-		int[] trans = new int[0]; // declare and allocate array memory
+		int[] trans = new int[1]; // declare and allocate array memory
 		
 		int balance = 0;
 		int amount = 0;
@@ -97,6 +97,8 @@ public class Bankomatjohbef {
 	public static void showTransactions(int[] trans, int balance) { 
 		
 		System.out.println("Current balance is: " + balance);
+		
+		System.out.println("Array size: " + trans.length);
 		System.out.println("The last transactions: ");
 		
 		for (int i = 0; i < trans.length; i++) { // loop from 1 to number of transactions or max 
@@ -114,6 +116,7 @@ public class Bankomatjohbef {
 		
 		int transPos = findNr(trans);
 		System.out.println(transPos);
+		System.out.println(trans.length);
 		
 		if (trans.length <= transPos) {
 			
@@ -144,7 +147,7 @@ public class Bankomatjohbef {
 
 		int arrayMaxLength = 10;
 		int transPos = 0;
-		if (trans.length < arrayMaxLength-1) {
+		if (trans.length < arrayMaxLength) {
 			
 			transPos = trans.length;
 		}
@@ -162,8 +165,10 @@ public class Bankomatjohbef {
 	//------------------------------------------------------
 	private static void moveTrans(int[] trans) {
 		
-		for(int i = 1; i <= (trans.length-1); i++) {
-			trans[i] = trans[i-1];
+		for(int i = 0; i < trans.length; i++) {
+			if (i != trans.length-1) {
+				trans[i+1] = trans[i];	
+			}
 		}
 	}
 }

@@ -19,12 +19,13 @@ public class Bankomatjohbef {
 	//------------------------------------------------------
 	public static void main(String []args){
 
-		int arrayMaxLength = 10; // Change number to change size of transaction array
+		//int arrayMaxLength = 10; // Change number to change size of transaction array
 		int[] trans = new int[1]; // declare and allocate array memory
 		
 		int balance = 0;
 		int amount = 0;
-		int numberOfTrans = 0;
+		//int numberOfTrans = 0;
+
 		
 		Scanner keyboardInput = new Scanner(System.in); // Create object
 
@@ -114,28 +115,38 @@ public class Bankomatjohbef {
 	//------------------------------------------------------
 	public static void makeTransaction(int[] trans, int amount) { 
 		
-		int transPos = findNr(trans);
-		System.out.println(transPos);
-		System.out.println(trans.length);
+		int arrayMaxLength = 3;
 		
-		if (trans.length <= transPos) {
+		System.out.println("Current trans length " + trans.length);
+		if (trans.length == arrayMaxLength) {
+			moveTrans(trans);
+			trans[arrayMaxLength-1] = amount;
+		}
+		else {
+			int transPos = findNr(trans);
+			System.out.println("transPos " + transPos);
 			
-			System.out.println("sdfdg");
-			
-			int[] transTemp = new int[trans.length+1];
+			int[] transTemp = new int[transPos+1];
 			
 			for(int i = 0; i < trans.length; i++) {
 				transTemp[i] = trans[i];
+				System.out.println("transTemp i " + transTemp[i]);
 			}
+			
 			trans = transTemp;
-			System.out.println(transTemp.length);
+			System.out.println("New trans length " + trans.length);
+			
+			for(int i = 0; i < trans.length; i++) {
+				
+				if (i == trans.length-1) {
+					trans[transPos] = amount;
+				}
+				else {
+					trans[i] = transTemp[i];
+				}
+				System.out.println("trans i " + trans[i]);
+			}
 		}
-
-		System.out.println(trans.length);
-
-		moveTrans(trans);
-		
-		trans[transPos] = amount;
 	}
 
 	//------------------------------------------------------
@@ -145,16 +156,8 @@ public class Bankomatjohbef {
 	//------------------------------------------------------
 	private static int findNr(int[] trans) { 
 
-		int arrayMaxLength = 10;
-		int transPos = 0;
-		if (trans.length < arrayMaxLength) {
-			
-			transPos = trans.length;
-		}
-		else {
-			transPos = arrayMaxLength-1;
-		}
-		
+		int transPos = trans.length;
+
 		return transPos;
 	}
 
@@ -164,10 +167,14 @@ public class Bankomatjohbef {
 	// Returvärde: None
 	//------------------------------------------------------
 	private static void moveTrans(int[] trans) {
-		
+
+		System.out.println(trans.length);
 		for(int i = 0; i < trans.length; i++) {
-			if (i != trans.length-1) {
-				trans[i+1] = trans[i];	
+			System.out.println(i);
+			System.out.println(trans[i]);
+
+			if (i != 0) {
+				trans[i-1] = trans[i];	
 			}
 		}
 	}

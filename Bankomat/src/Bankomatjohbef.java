@@ -3,9 +3,9 @@ import java.util.*;
 
 public class Bankomatjohbef {
 	//****************************************************************** 
-	// Programmerare: Johan Bergstr√∂m, johbef-4@student.ltu.se
+	// Programmerare: Johan Bergstrˆm, johbef-4@student.ltu.se
 	// Datum: 2014-11-25
-	// Senast uppdaterad: 2014-11-25, Johan Bergstr√∂m 
+	// Senast uppdaterad: 2014-11-25, Johan Bergstrˆm 
 	// Beskrivning: Enable several math functions based on user choice and input.
 	// Version: 1, First Release 
 	//****************************************************************** 
@@ -15,11 +15,13 @@ public class Bankomatjohbef {
 	// which math method to be used.
 	// Main function also print the result from the underlying methods.
 	// Inparametrar: None 
-	// Returv√§rde: None
+	// Returv‰rde: None
 	//------------------------------------------------------
 	public static void main(String []args){
 
-		int arrayMaxLength = 10; // Change number to change size of transaction array
+		/********************************/
+		int arrayMaxLength = 10; // **** Change number to change size of transaction array ****
+		/********************************/
 		
 		int[] trans = new int[arrayMaxLength]; // declare and allocate array memory
 		
@@ -42,7 +44,7 @@ public class Bankomatjohbef {
 			case 1: // Deposit
 				System.out.print("Amount to deposit: ");
 				amount = keyboardInput.nextInt();
-				if (amount > 0) {
+				if (amount > 0) {  // Check if amount is less or equal to then zero, can not deposit such amount
 					balance = balance + amount; // Calculate balance, the sum of all deposits and withdraws  
 					makeTransaction(trans, amount);
 				}
@@ -54,10 +56,10 @@ public class Bankomatjohbef {
 			case 2: // Withdraw
 				System.out.print("Amount to withdraw: ");
 				amount = keyboardInput.nextInt(); 
-				if (amount <= 0) {
+				if (amount <= 0) { // Check if amount is less or equal to then zero, can not withdraw such amount
 					System.out.println("Amount to withdraw has to be larger then 0!");
 				}
-				else if (amount > balance) {
+				else if (amount > balance) { // Can not withdraw more then balance
 					System.out.println("Can not withdraw: " + amount + " Balance is: " + balance);
 				}
 				else {
@@ -85,7 +87,7 @@ public class Bankomatjohbef {
 	//------------------------------------------------------
 	// Beskrivning: Present menu and return user input
 	// Inparametrar: None 
-	// Returv√§rde: userInput - User input 
+	// Returv‰rde: userInput - User input 
 	//------------------------------------------------------
 	public static int menu() { 
 
@@ -94,7 +96,7 @@ public class Bankomatjohbef {
 		
 		int userInput; 
 		
-		System.out.print("1. Ins√§ttning\n"
+		System.out.print("1. Ins‰ttning\n"
 				+ "2. Uttag\n"
 				+ "3. Saldobesked\n"
 				+ "4. Avsluta\n"
@@ -108,7 +110,7 @@ public class Bankomatjohbef {
 	//------------------------------------------------------
 	// Beskrivning: Present the last transactions and balance
 	// Inparametrar: trans - Transactions , balance - Account balance
-	// Returv√§rde: None
+	// Returv‰rde: None
 	//------------------------------------------------------
 	public static void showTransactions(int[] trans, int balance) { 
 		
@@ -125,7 +127,7 @@ public class Bankomatjohbef {
 	//------------------------------------------------------
 	// Beskrivning: Places amount in to transaction array
 	// Inparametrar: trans - Transaction array, amount - Withdraw or deposit amount 
-	// Returv√§rde: None
+	// Returv‰rde: None
 	//------------------------------------------------------
 	public static void makeTransaction(int[] trans, int amount) { 
 		
@@ -147,7 +149,7 @@ public class Bankomatjohbef {
 	//------------------------------------------------------
 	// Beskrivning: Will return the position where transaction shall be placed
 	// Inparametrar: trans - Transaction array
-	// Returv√§rde: transPos - Transaction position in array 
+	// Returv‰rde: transPos - Transaction position in array 
 	//------------------------------------------------------
 	private static int findNr(int[] trans) { 
 
@@ -164,7 +166,7 @@ public class Bankomatjohbef {
 	//------------------------------------------------------
 	// Beskrivning: Moves all transaction in array one step "left" to make room for new transaction 
 	// Inparametrar: trans - Transaction array
-	// Returv√§rde: None
+	// Returv‰rde: None
 	//------------------------------------------------------
 	private static void moveTrans(int[] trans) {
 

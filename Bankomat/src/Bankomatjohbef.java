@@ -19,51 +19,66 @@ public class Bankomatjohbef {
 	//------------------------------------------------------
 	public static void main(String []args){
 
-		//int arrayMaxLength = 10; // Change number to change size of transaction array
-		int[] trans = new int[1]; // declare and allocate array memory
+		int arrayMaxLength = 3; // Change number to change size of transaction array
+		
+		int[] trans = new int[arrayMaxLength]; // declare and allocate array memory
+		
+		for(int i = 0; i < trans.length; i++) { // Fill array with zeros
+			trans[i] = 0;
+		}
 		
 		int balance = 0;
 		int amount = 0;
-		//int numberOfTrans = 0;
 
 		
 		Scanner keyboardInput = new Scanner(System.in); // Create object
 
-		int function = menu();		
+		int function = menu();		// Call Menu
 		
-		while (function != 4) {
+		while (function != 4) { // Exit on 4
 
-			switch(function) {
+			switch(function) { // Decide what to do based on user input
 
 			case 1: // Deposit
 				System.out.print("Amount to deposit: ");
 				amount = keyboardInput.nextInt();
-				makeTransaction(trans, amount);
+				if (amount > 0) {
+					balance = balance + amount; // Calculate balance, the sum of all deposits and withdraws  
+					makeTransaction(trans, amount);
+				}
+				else {
+					System.out.println("Amount to deposit has to be larger then 0!");
+				}
 				break;
 				
-			case 2: // Deposit
+			case 2: // Withdraw
 				System.out.print("Amount to withdraw: ");
-				amount = -1*keyboardInput.nextInt();
-				makeTransaction(trans, amount);
+				amount = keyboardInput.nextInt(); 
+				if (amount <= 0) {
+					System.out.println("Amount to withdraw has to be larger then 0!");
+				}
+				else if (amount > balance) {
+					System.out.println("Can not withdraw: " + amount + " Balance is: " + balance);
+				}
+				else {
+					amount = -1*amount;
+					balance = balance + amount; // Calculate balance, the sum of all deposits and withdraws  
+					makeTransaction(trans, amount);
+				}
 				break;
 				
 			case 3: // Balance
 				showTransactions(trans, balance);
 				break;
-				
-			case 4: // Exit
-				break;
-
+		
 			default: // Do Nothing
 				System.out.println("Enter a number between 1 - 5!");
 				break;
 			}
 
-			balance = balance + amount; // Calculate balance, the sum of all deposits and withdraws  
-			
-			function = menu();
+			function = menu(); // Call Menu
 		}
-		
+		System.out.println("Thank You!\nHave a nice day!");
 		keyboardInput.close();
 	}
 
@@ -77,7 +92,7 @@ public class Bankomatjohbef {
 		Scanner keyboardInput = new Scanner(System.in); // Create object
 		// complain about resource leak but it can not be closed in method <- gives exception errors for following inputs 
 		
-		int userInput;
+		int userInput; 
 		
 		System.out.print("1. Insättning\n"
 				+ "2. Uttag\n"
@@ -85,7 +100,7 @@ public class Bankomatjohbef {
 				+ "4. Avsluta\n"
 				+ "Ditt val: "); // print
 		
-		userInput = keyboardInput.nextInt();
+		userInput = keyboardInput.nextInt(); 
 		
 		return userInput;
 	}
@@ -97,15 +112,14 @@ public class Bankomatjohbef {
 	//------------------------------------------------------
 	public static void showTransactions(int[] trans, int balance) { 
 		
-		System.out.println("Current balance is: " + balance);
+		System.out.println("Current balance is: " + balance); // Present Account balance
+		System.out.println("The last transactions (last first): "); // Present last transactions
 		
-		System.out.println("Array size: " + trans.length);
-		System.out.println("The last transactions: ");
-		
-		for (int i = 0; i < trans.length; i++) { // loop from 1 to number of transactions or max 
-			System.out.println(trans[i]);  // print result
+		for (int i = trans.length-1; i >= 0; i--) { // loop from trans length to 0 
+			if (trans[i] != 0) { // Do not present cells with zeros
+			System.out.println(trans[i]);  // print result of transactions 
+			}
 		}
-		
 	}
 
 	//------------------------------------------------------
@@ -115,38 +129,19 @@ public class Bankomatjohbef {
 	//------------------------------------------------------
 	public static void makeTransaction(int[] trans, int amount) { 
 		
-		int arrayMaxLength = 3;
+		int transPos = findNr(trans);
 		
-		System.out.println("Current trans length " + trans.length);
-		if (trans.length == arrayMaxLength) {
+		if (trans.length == transPos+1 && (trans[transPos] != 0)) { 
+			// Move elements in array when filled and place last transaction in last element of array  
 			moveTrans(trans);
-			trans[arrayMaxLength-1] = amount;
+			trans[transPos] = amount;
 		}
 		else {
-			int transPos = findNr(trans);
-			System.out.println("transPos " + transPos);
-			
-			int[] transTemp = new int[transPos+1];
-			
-			for(int i = 0; i < trans.length; i++) {
-				transTemp[i] = trans[i];
-				System.out.println("transTemp i " + transTemp[i]);
-			}
-			
-			trans = transTemp;
-			System.out.println("New trans length " + trans.length);
-			
-			for(int i = 0; i < trans.length; i++) {
-				
-				if (i == trans.length-1) {
-					trans[transPos] = amount;
-				}
-				else {
-					trans[i] = transTemp[i];
-				}
-				System.out.println("trans i " + trans[i]);
-			}
+			// Place last transaction in last element of array  
+			trans[transPos] = amount;
+
 		}
+
 	}
 
 	//------------------------------------------------------
@@ -156,23 +151,25 @@ public class Bankomatjohbef {
 	//------------------------------------------------------
 	private static int findNr(int[] trans) { 
 
-		int transPos = trans.length;
-
-		return transPos;
+		int i = 0;
+		
+		while (trans[i] != 0 && (i < trans.length-1)) {
+			// Decide which position in array to fill 
+			i++;
+		}
+		
+		return i;
 	}
 
 	//------------------------------------------------------
-	// Beskrivning: Moves all transaction in array one step to make room for new transaction 
+	// Beskrivning: Moves all transaction in array one step "left" to make room for new transaction 
 	// Inparametrar: trans - Transaction array
 	// Returvärde: None
 	//------------------------------------------------------
 	private static void moveTrans(int[] trans) {
 
-		System.out.println(trans.length);
 		for(int i = 0; i < trans.length; i++) {
-			System.out.println(i);
-			System.out.println(trans[i]);
-
+			// Move elements in array to the left, all elements except 0 element
 			if (i != 0) {
 				trans[i-1] = trans[i];	
 			}
